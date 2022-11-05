@@ -1,9 +1,18 @@
 import pywhatkit
+from PyQt5 import QtGui
+from PyQt5 import QtWidgets
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QGroupBox, QMessageBox, QApplication, QWidget, QPushButton, QLabel, QVBoxLayout, QHBoxLayout, QLineEdit, QComboBox, QScrollArea
 from datetime import datetime, timedelta
 from template_group import templates
 import re
+import sys
+try:
+    from PyQt5.QtWinExtras import QtWin
+    myappid = 'mycompany.myproduct.subproduct.version'
+    QtWin.setCurrentProcessExplicitAppUserModelID(myappid)
+except ImportError:
+    pass
 
 class ScrollMessageBox(QMessageBox):
    def __init__(self, l, *args, **kwargs):
@@ -32,8 +41,10 @@ class W(QWidget):
       result = ScrollMessageBox(self.lst, None)
       result.exec_()
 
-app = QApplication([])
-main_win = QWidget()
+app = QtWidgets.QApplication(sys.argv)
+app.setWindowIcon(QtGui.QIcon('Unknown.png'))
+
+main_win = QtWidgets.QWidget()
 main_win.resize(600, 300)
 
 main_win.setWindowTitle("Рассылка WhatsApp")
@@ -196,5 +207,6 @@ bnt_next.clicked.connect(next)
 bnt_info.clicked.connect(info)
 bnt_text.clicked.connect(format_text)
 main_win.setLayout(vline_main)
+main_win.setWindowIcon(QtGui.QIcon('Unknown.png'))
 main_win.show()
-app.exec_()
+sys.exit(app.exec_())
